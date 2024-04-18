@@ -1,0 +1,28 @@
+{
+    "type": "FeatureCollection",
+    "bounds": [
+      [
+        38.69559906940905, -9.230099411668961
+      ],
+      [
+        38.79611101619908, -9.089941635258585
+      ]
+    ],
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "Name": "Kfar",
+          "PlaceType": "Restaurant", 
+          "Description": "Great Restaurant"
+        },
+        "geometry": {
+          "coordinates": [
+            -75.17218492935483, 39.9514385432747
+          ],
+          "type": "Point"
+        },
+        "id": 1
+      }
+    ]
+  }

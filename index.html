@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Center City</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+
+    <!-- The project's main CSS module -->
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <h1>vamos</h1>
+    <div id="eats-map"></div>
+
+    <div id="eats-filters">
+      <label><input type="checkbox" class="cb" name="place-filter-type" value="Eat"> Restaurant</label>
+      <label><input type="checkbox"class="cb" name="eats-filter-nhood" value="Drink"> Bar</label>
+      <label><input type="checkbox"class="cb" name="eats-filter-nhood" value="Culture"> Culture</label>
+      <label><input type="checkbox"class="cb" name="eats-filter-nhood" value="Shop"> Shop</label>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
+    <!-- Lodash for useful functions -->
+    <script src="https://unpkg.com/lodash@4.17.21/lodash.min.js"></script>
+
+    <!-- The project's main JavaScript module -->
+    <script src="js/main.js" type="module"></script>
+    
+  </body>
+</html>
