@@ -15,10 +15,13 @@ function showNewPlaceForm(map,lat,lng){
     popupContent += "<div class='icon-container'>";
     popupContent += "<div class='category-options'>";
     popupContent += "Category: ";
-    popupContent += "<input type='radio' name='category' id='Eat-Button'>";
+    popupContent += "<input type='radio' class='category-option' name='category' id='Eat-Button' value='Eat'>";
     popupContent += "<label for='Eat-Button'><img class='category-option' src='images/eat.png' alt='Eat' data-value='Eat'></label>";
+    popupContent += "<input type='radio' class='category-option' name='category' id='Drink-Button' value='Drink'>";
     popupContent += "<img class='category-option' src='images/drink.png' alt='Drink' data-value='Drink'>";
+    popupContent += "<input type='radio' class='category-option' name='category' id='Culture-Button' value='Culture'>";
     popupContent += "<img class='category-option' src='images/culture.png' alt='Culture' data-value='Culture'>";
+    popupContent += "<input type='radio' class='category-option' name='category' id='Shop-Button' value='Shop'>";
     popupContent += "<img class='category-option' src='images/shop.png' alt='Shop' data-value='Shop'>";
     popupContent += "</div>";
     popupContent += "Name: <input type='text' id='placeName'><br>";
@@ -68,10 +71,13 @@ window.showNewPlaceForm=showNewPlaceForm;
 
 // User Submits Form & Saves Form Data 
 
-function placeAdder(placeLatLng,placeType,placeLabel,placeDetails,placePhotos) {
-    for (const photo of placePhotos.files) {
-        photoRef = ref(storage, photo.name);
-        uploadBytes(photoRef, photo);
+async function placeAdder(placeLatLng,placeType,placeLabel,placeDetails,placePhotos) {
+    const photoURL = [];
+    for (const photo of placePhotos) {
+        const photoRef = ref(storage, "/public/"+photo.name);
+        const response = await uploadBytes(photoRef, photo);
+        photoURL.push("https://storage.googleapis.com/"+response.metadata.bucket+ "/" +response.metadata.fullPath)
+        console.log(response);
     }
         const addPlace = {
             type: 'Feature',
@@ -83,7 +89,7 @@ function placeAdder(placeLatLng,placeType,placeLabel,placeDetails,placePhotos) {
                 category: placeType,
                 name: placeLabel,
                 details: placeDetails,
-                photos: placePhotos
+                photos: photoURL
             }
         };
         return addPlace;
@@ -93,17 +99,18 @@ function placeAdder(placeLatLng,placeType,placeLabel,placeDetails,placePhotos) {
 async function savePlaceFormData(map, latlng) {
 
     // Retrieve form data
-    var placeType = document.querySelector('.category-option.active').getAttribute('data-value');
+    var placeType = document.querySelector('.category-option:checked').value;
     var placeName = document.getElementById('placeName').value;
     var placeDetails = document.getElementById('placeDetails').value;
-    var placePhotos = document.getElementById('placePhotos').value;
+    var placePhotos = document.getElementById('placePhotos').files;
 
     // Call placeAdder function to process form data
-    var addPlace = placeAdder(latlng, placeType, placeName, placeDetails, placePhotos);
+    var addPlace = await placeAdder(latlng, placeType, placeName, placeDetails, placePhotos);
     console.log("New place added:", addPlace);
 
     // Add the marker to the map
-    placeMarker = L.marker(latlng).addTo(map);
+    const placeMarker = L.marker(latlng).addTo(map);
+    console.log(placeMarker);
 
     // Add document into the Places_Collection
     const docRef = await addDoc(placeCollection, {
@@ -117,6 +124,7 @@ async function savePlaceFormData(map, latlng) {
 
     // Close the popup
     map.closePopup();
+    map.places.push(addPlace);
 };
 
 // User Opens Map and Sees Data 
@@ -128,40 +136,3 @@ function recallSavedData(){
 export {
     showNewPlaceForm
 };
-
-//     // Handle form submission
-//     L.DomEvent.on(document.getElementById('addPlaceForm'), 'submit', function(e) {
-//         L.DomEvent.stop(e); // Prevent default form submission
-
-
-//         });
-//     });
-
-// // function rememberPlaceAdded (map){
-// //     const placeData = placeAdder();
-// //     window.localStorage.setItem('placeFormData', JSON.stringify(placeData));
-// // }
-
-//     function rememberPlaceAdded() {
-//         const place = getPlaceFormData();
-//         window.localStorage.setItem('placeFormData', JSON.stringify(placeData));
-
-//     }
-
-//     function recallPlaceAdded() {
-//         const place = JSON. parse (window. localStorage.getItem('placeFormData™'));
-//         if (place) {
-//         placeTypeSelect.value = place.properties.category;
-//         placeDetailText.value = place.properties.details;
-//         placePhoto.value = place.properties.photos;
-//         placeLayer.eachLayer ((layer) => {
-//         if (layer.feature.properties.OBJECTID == placeData.properties.id) {
-//         setReportSelectedLaver (laver):
-//         }
-//     });
-//     setPlaceMarker(L.latlng([
-//         placeData.geometry[1],
-//         placeData.geometry[0],
-//     ]));
-//     }
-//     };

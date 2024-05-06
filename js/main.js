@@ -4,18 +4,37 @@ import './data-entry.js';
 import {getDocs} from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js';
 import { placeCollection } from './firebase.js';
 
-// Is this section right since we added features to the eats-map.js file?
 async function loadPlaces() {
   const placeQuery = await getDocs(placeCollection);
   const places = placeQuery.docs.map((doc) => doc.data());
 
   const data = {
     type: 'FeatureCollection',
-    features: places,
+    features: places.map(docToFeature),
   };
   console.log(data);
   return data;
 };
+
+// Convert firebase doc to geojson
+function docToFeature (doc){
+  const feature = {
+    type:"Feature",
+    properties: {
+      name: doc.Name,
+      type: doc.Type,
+      description: doc.Description,
+      where: doc.Where,
+      photos: doc.Photos
+      // FILL IN
+    },
+    geometry: {
+      type: "Point",
+      coordinates: doc.Where,
+    }
+  }
+  return feature;
+}
 
 const eventBus = new EventTarget();
 const eatsMap = initializeeatsMap(eventBus);

@@ -50,6 +50,7 @@ function setupMapEventHandlers(map) {
     const { added, removed } = evt.detail;
     highlightEatsOnMap(added, map);
     unhighlightEatsOnMap(removed, map);
+    
   });
 
   map.eventBus.addEventListener('filterschanged', (evt) => {
@@ -83,7 +84,7 @@ function getEatsStyle(place) {
       color: 'red',
       fillColor: 'red',
       fillOpacity: 0.5,
-      radius: 3,
+      radius: 10,
     };
   } else if (place.properties.PlaceType=="Bar") {
     return {
@@ -164,10 +165,12 @@ function unhighlightEatsOnMap(Restaurants, map) {
 }
 
 function showEatsOnMap(Restaurants, map) {
+  map.places=Restaurants;
   redrawEatsOnMap(Restaurants, map);
 }
 
 export {
+  setupMapEventHandlers,
   highlightEatsOnMap,
   initializeeatsMap,
   showEatsOnMap,
