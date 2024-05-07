@@ -78,7 +78,7 @@ function makeEatsFeature(Eats) {
 }
 
 function getEatsStyle(place) {
-  if (place.properties.PlaceType=="Restaurant") {
+  if (place.properties.type=="Eat") {
     return {
       stroke: true,
       color: 'red',
@@ -86,31 +86,31 @@ function getEatsStyle(place) {
       fillOpacity: 0.5,
       radius: 10,
     };
-  } else if (place.properties.PlaceType=="Bar") {
+  } else if (place.properties.type=="Drink") {
     return {
       stroke: true,
       color: 'blue',
       fillColor: 'blue',
       fillOpacity: 0.5,
-      radius: 3,
+      radius: 10,
     };
   }
-    else if (place.properties.PlaceType=="Shop") {
+    else if (place.properties.type=="Shop") {
       return {
         stroke: true,
         color: 'Orange',
         fillColor: 'Orange',
         fillOpacity: 0.5,
-        radius: 3,
+        radius: 10,
       };
   }
-  else if (place.properties.PlaceType=="Attraction") {
+  else if (place.properties.PlaceType=="Culture") {
     return {
       stroke: true,
       color: 'Green',
       fillColor: 'Green',
       fillOpacity: 0.5,
-      radius: 3,
+      radius: 10,
     };
   }
   else if (place.properties.PlaceType=="Event") {
