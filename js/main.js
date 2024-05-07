@@ -26,7 +26,6 @@ function docToFeature (doc){
       description: doc.Description,
       where: doc.Where,
       photos: doc.Photos
-      // FILL IN
     },
     geometry: {
       type: "Point",
@@ -53,5 +52,6 @@ async function mapRestaurants(){
 
   const data = await loadPlaces();
   onRestaurantsLoad(data);
+  initializeFilters(data);
 }
 mapRestaurants();
